@@ -14,7 +14,7 @@ public class CenterFlame : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Note")&&!musicStart)
+        if(collision.CompareTag("Note")&&!musicStart)   //첫번째 노트가 프레임에 닿았을때 bgm실행
         {
             theAudio.Play();
             musicStart = true;
