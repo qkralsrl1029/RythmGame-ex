@@ -321,6 +321,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f290dd02683847746a4a34fdb29df8ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &87485570
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 87485572}
+  - component: {fileID: 87485571}
+  m_Layer: 0
+  m_Name: ObjectPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &87485571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87485570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 293a40ae4faa50742a6fdfbab3775fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectInfos:
+  - goPrefab: {fileID: 2091425444743358030, guid: d1dc4bd5046d26c41a24d694f3f31cea,
+      type: 3}
+    count: 15
+    tfPoolParent: {fileID: 1976679877}
+--- !u!4 &87485572
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87485570}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 684.4902, y: 1550.4908, z: 6.246338}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -1261,7 +1309,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1787906117}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -1415,7 +1463,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bpm: 120
   tfNoteAppear: {fileID: 1412363337}
-  goNote: {fileID: 2091425444743358030, guid: d1dc4bd5046d26c41a24d694f3f31cea, type: 3}
 --- !u!61 &1976679879
 BoxCollider2D:
   m_ObjectHideFlags: 0

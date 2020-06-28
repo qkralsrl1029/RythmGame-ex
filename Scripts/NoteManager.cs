@@ -8,7 +8,7 @@ public class NoteManager : MonoBehaviour
     double currentTime = 0d;    //오차를 줄이기위해 더블변수 사용.
 
     [SerializeField] Transform tfNoteAppear = null;
-    [SerializeField] GameObject goNote = null;
+    
 
     TimingManager theTimingManager;
     EffectManager theEffectManager;
@@ -24,8 +24,10 @@ public class NoteManager : MonoBehaviour
         currentTime += Time.deltaTime;
         if(currentTime>=60d/bpm)    //1beat시간
         {
-            GameObject t_note = Instantiate(goNote, tfNoteAppear.position, Quaternion.identity);
-            t_note.transform.SetParent(this.transform);     //이미지는 캔버스 안에서만 가시화되기때문에 부모객체 설정
+            GameObject t_note = ObjectPool.instance.noteQueue.Dequeue();        //옵젝 풀링
+            t_note.transform.position = tfNoteAppear.position;
+            t_note.SetActive(true);
+        
             theTimingManager.boxNoteList.Add(t_note);       //리스트에 추가
             currentTime -= 60d / bpm;       //그냥 0으로 초기화시켜버리면 프레임별 시간적 오차만큼 손실이 발생함.
         }
@@ -35,10 +37,12 @@ public class NoteManager : MonoBehaviour
     {
         if (collision.CompareTag("Note"))
         {
-            if(collision.GetComponent<Note>().GetNoteFlag())
+            if(collision.GetComponent<Note>().GetNoteFlag())        //이미지가 사라지지않은상태에서(제때 클릭하지않은상태에서) 벽에 닿으면 미스처리
                 theEffectManager.JudgementEffect(4);
-            theTimingManager.boxNoteList.Remove(collision.gameObject);
-            Destroy(collision.gameObject);
+            theTimingManager.boxNoteList.Remove(collision.gameObject);  //리스트에서 제거하고
+            ObjectPool.instance.noteQueue.Enqueue(collision.gameObject);    //다시 큐에 반납
+            collision.gameObject.SetActive(false);
+            //Destroy(collision.gameObject);
 
         }
     }

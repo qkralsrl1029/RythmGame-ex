@@ -6,12 +6,16 @@ public class Note : MonoBehaviour
 {
     public float noteSpeed = 400;
     UnityEngine.UI.Image noteImage;
-    
+
     // Update is called once per frame
-    private void Start()
+    private void OnEnable()     //옵젝풀링기법을 사용해서 매번 활성/비활성을 반복하기때문에 활성화될때마다 초기화 시켜줘야함
     {
-        noteImage = GetComponent<UnityEngine.UI.Image>();
+        if (noteImage == null)
+            noteImage = GetComponent<UnityEngine.UI.Image>();
+
+        noteImage.enabled = true;
     }
+    
     void Update()
     {
         transform.localPosition += Vector3.right * noteSpeed*Time.deltaTime;
