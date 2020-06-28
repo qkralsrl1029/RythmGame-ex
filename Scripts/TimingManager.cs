@@ -11,12 +11,14 @@ public class TimingManager : MonoBehaviour
 
     EffectManager theEffect;
     ScoreManager theScore;
+    ComboManager theCombo;
 
     // Start is called before the first frame update
     void Start()
     {
         theEffect = FindObjectOfType<EffectManager>();
         theScore = FindObjectOfType<ScoreManager>();
+        theCombo = FindObjectOfType<ComboManager>();
 
         timingBoxes = new Vector2[timingRect.Length];
         for (int i = 0; i < timingRect.Length; i++)     //판정범위 설정
@@ -41,12 +43,14 @@ public class TimingManager : MonoBehaviour
                         theEffect.NoteHitEffect();
                     boxNoteList.RemoveAt(i);
                     theEffect.JudgementEffect(j);
-                    theScore.IncreaseScore(j);      //정확도별 점수 증가
-                    return;                                                         //perfect->bad순으로 검사하여 판정범위안에있으면 리턴(이벤트호출시 가장 높은 점수를 리턴)
+                    theScore.IncreaseScore(j);      //정확도별 점수 증가 
+                    return;                         //perfect->bad순으로 검사하여 판정범위안에있으면 리턴(이벤트호출시 가장 높은 점수를 리턴)
 
                 }
             }
         }
-        theEffect.JudgementEffect(4);       //Miss
+
+        theCombo.ResetCombo();              //Miss
+        theEffect.JudgementEffect(4);       
     }
 }
