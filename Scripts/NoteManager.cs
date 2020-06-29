@@ -24,14 +24,14 @@ public class NoteManager : MonoBehaviour
     void Update()
     {
         currentTime += Time.deltaTime;
-        if(currentTime>=55d/bpm)    //1beat시간
+        if(currentTime>=56.5d/bpm)    //1beat시간
         {
             GameObject t_note = ObjectPool.instance.noteQueue.Dequeue();        //옵젝 풀링
             t_note.transform.position = tfNoteAppear.position;
             t_note.SetActive(true);
         
             theTimingManager.boxNoteList.Add(t_note);       //리스트에 추가
-            currentTime -= 55d / bpm;       //그냥 0으로 초기화시켜버리면 프레임별 시간적 오차만큼 손실이 발생함.
+            currentTime -= 56.5d / bpm;       //그냥 0으로 초기화시켜버리면 프레임별 시간적 오차만큼 손실이 발생함.
         }
     }
 

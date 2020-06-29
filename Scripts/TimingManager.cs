@@ -28,7 +28,7 @@ public class TimingManager : MonoBehaviour
         }
     }
 
-    public void CheckTiming()
+    public bool CheckTiming()
     {
         for (int i = 0; i < boxNoteList.Count; i++)
         {
@@ -44,13 +44,14 @@ public class TimingManager : MonoBehaviour
                     boxNoteList.RemoveAt(i);
                     theEffect.JudgementEffect(j);
                     theScore.IncreaseScore(j);      //정확도별 점수 증가 
-                    return;                         //perfect->bad순으로 검사하여 판정범위안에있으면 리턴(이벤트호출시 가장 높은 점수를 리턴)
+                    return true;                         //perfect->bad순으로 검사하여 판정범위안에있으면 리턴(이벤트호출시 가장 높은 점수를 리턴)
 
                 }
             }
         }
 
         theCombo.ResetCombo();              //Miss
-        theEffect.JudgementEffect(4);       
+        theEffect.JudgementEffect(4);
+        return false;
     }
 }

@@ -10,6 +10,7 @@ public class ComboManager : MonoBehaviour
     Animator anim;
 
     int currentCombo = 0;
+    bool isProgress = false;
 
     private void Start()
     {
@@ -30,6 +31,9 @@ public class ComboManager : MonoBehaviour
         {
             txtCombo.gameObject.SetActive(true);
             goComboImage.SetActive(true);
+            if(!isProgress)
+                anim.SetTrigger("start");
+            isProgress = true;
         }
     }
 
@@ -37,6 +41,7 @@ public class ComboManager : MonoBehaviour
     {
         currentCombo = 0;
         txtCombo.text = "0";
+        isProgress = false;
         txtCombo.gameObject.SetActive(false);
         goComboImage.SetActive(false);
     }
