@@ -9,9 +9,13 @@ public class TimingManager : MonoBehaviour
     [SerializeField] RectTransform[] timingRect = null;             //perfect,cool,good,bad
     Vector2[] timingBoxes = null;       //판정범위의 최솟값 최댓값
 
+    int[] judgementRecord = new int[5];     //결과창에 넘겨줄 정보( 퍼펙트 몇개, 쿨 몇개...)
+
     EffectManager theEffect;
     ScoreManager theScore;
     ComboManager theCombo;
+    StageManager theStage;
+    PlayerController thePlayer;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +23,9 @@ public class TimingManager : MonoBehaviour
         theEffect = FindObjectOfType<EffectManager>();
         theScore = FindObjectOfType<ScoreManager>();
         theCombo = FindObjectOfType<ComboManager>();
+        theStage = FindObjectOfType<StageManager>();
+        thePlayer= FindObjectOfType<PlayerController>();
+
 
         timingBoxes = new Vector2[timingRect.Length];
         for (int i = 0; i < timingRect.Length; i++)     //판정범위 설정
@@ -28,7 +35,7 @@ public class TimingManager : MonoBehaviour
         }
     }
 
-    public bool CheckTiming()
+    public bool CheckTiming()       //노트가 알맞은 타이밍에 눌리는지 체크
     {
         for (int i = 0; i < boxNoteList.Count; i++)
         {
@@ -42,16 +49,53 @@ public class TimingManager : MonoBehaviour
                     if(j<timingBoxes.Length-1)      //bad판정이 아닐때 이펙트 호출
                         theEffect.NoteHitEffect();
                     boxNoteList.RemoveAt(i);
-                    theEffect.JudgementEffect(j);
-                    theScore.IncreaseScore(j);      //정확도별 점수 증가 
+                    
+                   
+                    if (CheckCanNextPlate())            //제대로된 발판으로 이동했을때만
+                    {
+                        theScore.IncreaseScore(j);      //정확도별 점수 증가 
+                        theStage.ShowNext();            //노트 판정시 다음 발판 호출
+                        theEffect.JudgementEffect(j);   //판정이펙트 호출
+                        judgementRecord[j]++;           //정확도별 개수 카운트
+                    }
                     return true;                         //perfect->bad순으로 검사하여 판정범위안에있으면 리턴(이벤트호출시 가장 높은 점수를 리턴)
 
                 }
             }
         }
 
-        theCombo.ResetCombo();              //Miss
+        //Miss
+        theCombo.ResetCombo();             
         theEffect.JudgementEffect(4);
+        missCount();
         return false;
+    }
+
+    bool CheckCanNextPlate()        //플레이어가 알맞은 발판으로 이동했는지 체크
+    {
+        if(Physics.Raycast(thePlayer.destination,Vector3.down,out RaycastHit hit,1.1f)) //레이저를 쏴서
+        {
+            if(hit.transform.CompareTag("BasicPlate"))  //맞은 객체가 발판일때
+            {
+                BasicPlate temp = hit.transform.GetComponent<BasicPlate>();
+                if (temp.flag)
+                {
+                    temp.flag = false;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    public int[] GetRecord()        //판정기록들 넘겨주기
+    {
+        return judgementRecord;
+    }
+
+    public void missCount()
+    {
+        judgementRecord[4]++;
     }
 }

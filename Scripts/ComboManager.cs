@@ -10,6 +10,8 @@ public class ComboManager : MonoBehaviour
     Animator anim;
 
     int currentCombo = 0;
+    int maxCombo = 0;
+
     bool isProgress = false;
 
     private void Start()
@@ -27,12 +29,16 @@ public class ComboManager : MonoBehaviour
         currentCombo += num;
         txtCombo.text = string.Format("{0:#,##0}", currentCombo);   //문자열 정렬
 
+        if (maxCombo < currentCombo)
+            maxCombo = currentCombo;
+
         if(currentCombo>10)
         {
             txtCombo.gameObject.SetActive(true);
             goComboImage.SetActive(true);
             if(!isProgress)
                 anim.SetTrigger("start");
+            anim.SetTrigger("comboImage");
             isProgress = true;
         }
     }
@@ -55,5 +61,10 @@ public class ComboManager : MonoBehaviour
     {
         if (currentCombo % 10 == 9)
             anim.SetTrigger("combo");
+    }
+
+    public int GetMaxCombo()
+    {
+        return maxCombo;
     }
 }

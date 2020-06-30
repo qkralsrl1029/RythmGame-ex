@@ -6,9 +6,12 @@ public class PlayerController : MonoBehaviour
 {
     TimingManager theTimingManager;
     CameraController theCam;
+    Rigidbody rigid;
+
     [SerializeField] float moveSpeed = 3f;      //큐브움직임
     Vector3 dir = new Vector3();
-    Vector3 destination = new Vector3();
+    public Vector3 destination = new Vector3();
+    Vector3 originPos = new Vector3();          //리젠될때 불러올 원위치
 
     [SerializeField] float spinSpeed = 270;     //회전속도
     Vector3 rotDir = new Vector3();             //회전방향
@@ -21,34 +24,63 @@ public class PlayerController : MonoBehaviour
     float recoilSpeed = 1.5f;
 
     bool canMove = true;        //중복 실행 방지
+    public static bool isDone = false;  //게임 종료 감지
 
     private void Start()
     {
         theTimingManager = FindObjectOfType<TimingManager>();
         theCam = FindObjectOfType<CameraController>();
+        rigid = GetComponentInChildren<Rigidbody>();
+
+        originPos = transform.position;       
     }
     // Update is called once per frame
     void Update()
     {
+        CheckFalling();     //발판에서 벗어나는지 체크
         if(Input.GetKeyDown(KeyCode.A)|| Input.GetKeyDown(KeyCode.S)|| Input.GetKeyDown(KeyCode.D)|| Input.GetKeyDown(KeyCode.W))
         {
-            if(theTimingManager.CheckTiming()&&canMove)
+            if (canMove&&!isDone)
             {
-                startAtion();       //올바른 타이밍에 키를 눌렀을때만 움직임
-                
+                Calc();
+                if (theTimingManager.CheckTiming())
+                {
+                    startAtion();       //올바른 타이밍에 키를 눌렀을때만 움직임, 움직이는 도중엔 못움직임
+
+                }
             }
         }
     }
+    void CheckFalling()
+    {
+        if (!Physics.Raycast(transform.position, Vector3.down, 1.1f))
+        {
+            rigid.useGravity = true;
+            rigid.isKinematic = false;
+        }
+    }
+    public void ResetFalling()
+    {
+        rigid.useGravity = false;
+        rigid.isKinematic = true;
 
-    void startAtion()
+        transform.position = originPos;
+        realCube.localPosition = new Vector3(0, 0, 0);      //외형모형인 큐브도 초기화
+    }
+
+    void Calc()
     {
         dir.Set(Input.GetAxisRaw("Vertical"), 0, Input.GetAxisRaw("Horizontal"));   //입력키대로 방향 설정
 
-        destination = transform.position + new Vector3(-dir.x,0,dir.z);             //방향대로 목적지 설정
-        rotDir = new Vector3(-dir.z, 0, -dir.x);
+        destination = transform.position + new Vector3(dir.x, 0, -dir.z);             //방향대로 목적지 설정
+        rotDir = new Vector3(dir.z, 0, dir.x);
 
         fakeCube.RotateAround(transform.position, rotDir, spinSpeed);       //자기자신을 중심으로 이동방향을 축으로 하여 회전
         destRot = fakeCube.rotation;
+    }
+    void startAtion()
+    {
+      
         StartCoroutine(MoveCoroutine());
         StartCoroutine(SpinCoroutine());
         StartCoroutine(recoilCoroutine());
@@ -96,4 +128,6 @@ public class PlayerController : MonoBehaviour
         realCube.localPosition = new Vector3(0, 0, 0);
 
     }
+
+ 
 }
