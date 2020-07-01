@@ -25,7 +25,7 @@ public class NoteManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isDone)
+        if (!isDone&&StatusManager.isAlive)
         {
             currentTime += Time.deltaTime;
             if (currentTime >= 56.5d / bpm)    //1beat시간

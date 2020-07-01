@@ -6,7 +6,9 @@ public class PlayerController : MonoBehaviour
 {
     TimingManager theTimingManager;
     CameraController theCam;
+    StatusManager theStatus;
     Rigidbody rigid;
+
 
     [SerializeField] float moveSpeed = 3f;      //큐브움직임
     Vector3 dir = new Vector3();
@@ -30,6 +32,7 @@ public class PlayerController : MonoBehaviour
     {
         theTimingManager = FindObjectOfType<TimingManager>();
         theCam = FindObjectOfType<CameraController>();
+        theStatus = FindObjectOfType<StatusManager>();
         rigid = GetComponentInChildren<Rigidbody>();
 
         originPos = transform.position;       
@@ -61,13 +64,16 @@ public class PlayerController : MonoBehaviour
     }
     public void ResetFalling()
     {
-        rigid.useGravity = false;
-        rigid.isKinematic = true;
-
-        transform.position = originPos;
-        realCube.localPosition = new Vector3(0, 0, 0);      //외형모형인 큐브도 초기화
+        theStatus.DecreaseHp(1);
+        
+        if (StatusManager.isAlive)
+        {
+            rigid.useGravity = false;
+            rigid.isKinematic = true;
+            transform.position = originPos;
+            realCube.localPosition = new Vector3(0, 0, 0);      //외형모형인 큐브도 초기화
+        }
     }
-
     void Calc()
     {
         dir.Set(Input.GetAxisRaw("Vertical"), 0, Input.GetAxisRaw("Horizontal"));   //입력키대로 방향 설정

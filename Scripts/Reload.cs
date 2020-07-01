@@ -12,7 +12,7 @@ public class Reload : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag=="Player")
+        if(other.tag=="Player"&&StatusManager.isAlive)
         {
             other.GetComponentInParent<PlayerController>().ResetFalling();
         }
