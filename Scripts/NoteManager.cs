@@ -25,17 +25,20 @@ public class NoteManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isDone&&StatusManager.isAlive)
+        if (GameManager.instance.isStartGame)        //게임화면에서만 노트 생성
         {
-            currentTime += Time.deltaTime;
-            if (currentTime >= 56.5d / bpm)    //1beat시간
+            if (!isDone && StatusManager.isAlive)     //플레이어가 도착지점에 도착하지않았거나 hp가 0이되지 않아서 살아있을때만 노트 생성     
             {
-                GameObject t_note = ObjectPool.instance.noteQueue.Dequeue();        //옵젝 풀링
-                t_note.transform.position = tfNoteAppear.position;
-                t_note.SetActive(true);
+                currentTime += Time.deltaTime;
+                if (currentTime >= 56.5d / bpm)    //1beat시간
+                {
+                    GameObject t_note = ObjectPool.instance.noteQueue.Dequeue();        //옵젝 풀링
+                    t_note.transform.position = tfNoteAppear.position;
+                    t_note.SetActive(true);
 
-                theTimingManager.boxNoteList.Add(t_note);       //리스트에 추가
-                currentTime -= 56.5d / bpm;       //그냥 0으로 초기화시켜버리면 프레임별 시간적 오차만큼 손실이 발생함.
+                    theTimingManager.boxNoteList.Add(t_note);       //리스트에 추가
+                    currentTime -= 56.5d / bpm;       //그냥 0으로 초기화시켜버리면 프레임별 시간적 오차만큼 손실이 발생함.
+                }
             }
         }
     }
@@ -60,6 +63,7 @@ public class NoteManager : MonoBehaviour
 
     public void removeNote()
     {
+        GameManager.instance.isStartGame = false;
         for (int i = 0; i < theTimingManager.boxNoteList.Count; i++)
         {
             theTimingManager.boxNoteList[i].SetActive(false);

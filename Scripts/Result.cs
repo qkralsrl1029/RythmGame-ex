@@ -25,8 +25,12 @@ public class Result : MonoBehaviour
 
     public void ShowResult()
     {
-        goUI.SetActive(true);
+        AudioManager.instance.StopBGM();    //결과창 호출시 브금 재생 종료
 
+        goUI.SetActive(true);               //결과창 띄우기
+
+
+        //게임 진행 중 얻은 정보들 텍스트에 저장
         for (int i = 0; i < txt.Length; i++)
         {
             txt[i].text = "0";
@@ -44,5 +48,12 @@ public class Result : MonoBehaviour
         }
         txtScore.text = string.Format("{0:#,##0}", theScore.GetScore());
         txtMaxCombo.text = string.Format("{0:#,##0}", theCombo.GetMaxCombo());
+    }
+
+    public void BtnMain()       //메인메뉴 호출 버튼
+    {
+        goUI.SetActive(false);      //결과창 끄고
+        theCombo.ResetCombo();      //콤보도 끄고
+        GameManager.instance.MainMenu();    //메인메뉴창 호출
     }
 }

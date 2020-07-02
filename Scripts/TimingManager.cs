@@ -16,6 +16,7 @@ public class TimingManager : MonoBehaviour
     ComboManager theCombo;
     StageManager theStage;
     PlayerController thePlayer;
+    AudioManager theAudio;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +26,7 @@ public class TimingManager : MonoBehaviour
         theCombo = FindObjectOfType<ComboManager>();
         theStage = FindObjectOfType<StageManager>();
         thePlayer= FindObjectOfType<PlayerController>();
+        theAudio = AudioManager.instance;
 
 
         timingBoxes = new Vector2[timingRect.Length];
@@ -58,6 +60,8 @@ public class TimingManager : MonoBehaviour
                         theEffect.JudgementEffect(j);   //판정이펙트 호출
                         judgementRecord[j]++;           //정확도별 개수 카운트
                     }
+
+                    theAudio.PlaySFX("Clap");      //노트판정 효과음은 게임 중 가장 많이 호출되므로 미리 선언 후 사용
                     return true;                         //perfect->bad순으로 검사하여 판정범위안에있으면 리턴(이벤트호출시 가장 높은 점수를 리턴)
 
                 }

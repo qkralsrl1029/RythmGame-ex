@@ -40,16 +40,18 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CheckFalling();     //발판에서 벗어나는지 체크
-        if(Input.GetKeyDown(KeyCode.A)|| Input.GetKeyDown(KeyCode.S)|| Input.GetKeyDown(KeyCode.D)|| Input.GetKeyDown(KeyCode.W))
+        if (GameManager.instance.isStartGame)
         {
-            if (canMove&&!isDone)
+            CheckFalling();     //발판에서 벗어나는지 체크
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.W))
             {
-                Calc();
-                if (theTimingManager.CheckTiming())
+                if (canMove && !isDone)
                 {
-                    startAtion();       //올바른 타이밍에 키를 눌렀을때만 움직임, 움직이는 도중엔 못움직임
-
+                    Calc();
+                    if (theTimingManager.CheckTiming())
+                    {
+                        startAtion();       //올바른 타이밍에 키를 눌렀을때만 움직임, 움직이는 도중엔 못움직임
+                    }
                 }
             }
         }
@@ -65,7 +67,7 @@ public class PlayerController : MonoBehaviour
     public void ResetFalling()
     {
         theStatus.DecreaseHp(1);
-        
+        AudioManager.instance.PlaySFX("Falling");
         if (StatusManager.isAlive)
         {
             rigid.useGravity = false;
