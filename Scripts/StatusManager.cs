@@ -29,6 +29,13 @@ public class StatusManager : MonoBehaviour
         theResult = FindObjectOfType<Result>();
     }
 
+    public void init()      //초기화
+    {
+        currentHp = maxHp;
+        isAlive = true;
+        SettingHpImage();
+    }
+
     public void DecreaseHp(int num)
     {
         if (!isBlink)

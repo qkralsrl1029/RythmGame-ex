@@ -21,6 +21,12 @@ public class ScoreManager : MonoBehaviour
         textScore .text= "0";
     }
 
+    public void init()      //초기화함수
+    {
+        currentScore = 0;
+        textScore.text = "0";
+    }
+
     public void IncreaseScore(int hitType)      //판정 참조(퍼펙트...배드)
     {
         theCombo.IncreaseCombo();   //점수오르면 콤보증가

@@ -19,7 +19,7 @@ public class Goal : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            theAudio.Play();        //게임종료 사운드
+            //theAudio.Play();        //게임종료 사운드
             PlayerController.isDone = true; //움직임 봉쇄
             NoteManager.isDone = true;      //노트 생성 봉쇄
             theNote.removeNote();

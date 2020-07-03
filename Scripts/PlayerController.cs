@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -11,13 +12,13 @@ public class PlayerController : MonoBehaviour
 
 
     [SerializeField] float moveSpeed = 3f;      //큐브움직임
-    Vector3 dir = new Vector3();
-    public Vector3 destination = new Vector3();
-    Vector3 originPos = new Vector3();          //리젠될때 불러올 원위치
+    UnityEngine.Vector3 dir = new UnityEngine.Vector3();
+    public UnityEngine.Vector3 destination = new UnityEngine.Vector3();
+    UnityEngine.Vector3 originPos = new UnityEngine.Vector3();          //리젠될때 불러올 원위치
 
     [SerializeField] float spinSpeed = 270;     //회전속도
-    Vector3 rotDir = new Vector3();             //회전방향
-    Quaternion destRot = new Quaternion();      //목표 회전값
+    UnityEngine.Vector3 rotDir = new UnityEngine.Vector3();             //회전방향
+    UnityEngine.Quaternion destRot = new UnityEngine.Quaternion();      //목표 회전값
 
     [SerializeField] Transform fakeCube = null; //가짜 큐브를 먼저 회번시키고 그 값을 목표 회전값으로 삼음
     [SerializeField] Transform realCube = null;
@@ -36,6 +37,18 @@ public class PlayerController : MonoBehaviour
         rigid = GetComponentInChildren<Rigidbody>();
 
         originPos = transform.position;       
+    }
+
+    public void init()
+    {
+        transform.position = UnityEngine.Vector3.zero;
+        destination = UnityEngine.Vector3.zero;
+        realCube.localPosition = UnityEngine.Vector3.zero;
+        canMove = true;
+        isDone = false;
+
+        rigid.useGravity = false;
+        rigid.isKinematic = true;
     }
     // Update is called once per frame
     void Update()
@@ -58,7 +71,7 @@ public class PlayerController : MonoBehaviour
     }
     void CheckFalling()
     {
-        if (!Physics.Raycast(transform.position, Vector3.down, 1.1f))
+        if (!Physics.Raycast(transform.position, UnityEngine.Vector3.down, 1.1f))
         {
             rigid.useGravity = true;
             rigid.isKinematic = false;
@@ -73,15 +86,15 @@ public class PlayerController : MonoBehaviour
             rigid.useGravity = false;
             rigid.isKinematic = true;
             transform.position = originPos;
-            realCube.localPosition = new Vector3(0, 0, 0);      //외형모형인 큐브도 초기화
+            realCube.localPosition = new UnityEngine.Vector3(0, 0, 0);      //외형모형인 큐브도 초기화
         }
     }
     void Calc()
     {
         dir.Set(Input.GetAxisRaw("Vertical"), 0, Input.GetAxisRaw("Horizontal"));   //입력키대로 방향 설정
 
-        destination = transform.position + new Vector3(dir.x, 0, -dir.z);             //방향대로 목적지 설정
-        rotDir = new Vector3(dir.z, 0, dir.x);
+        destination = transform.position + new UnityEngine.Vector3(dir.x, 0, -dir.z);             //방향대로 목적지 설정
+        rotDir = new UnityEngine.Vector3(dir.z, 0, dir.x);
 
         fakeCube.RotateAround(transform.position, rotDir, spinSpeed);       //자기자신을 중심으로 이동방향을 축으로 하여 회전
         destRot = fakeCube.rotation;
@@ -99,9 +112,9 @@ public class PlayerController : MonoBehaviour
     IEnumerator MoveCoroutine()
     {
         canMove = false;
-        while(Vector3.SqrMagnitude(transform.position-destination)>=0.01)       //distance함수보다 가벼움.제곱근 구하는 함수
+        while(UnityEngine.Vector3.SqrMagnitude(transform.position-destination)>=0.01)       //distance함수보다 가벼움.제곱근 구하는 함수
         {
-            transform.position = Vector3.MoveTowards(transform.position, destination, moveSpeed * Time.deltaTime);
+            transform.position = UnityEngine.Vector3.MoveTowards(transform.position, destination, moveSpeed * Time.deltaTime);
             yield return null;
         }
 
@@ -110,9 +123,9 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator SpinCoroutine()
     {
-        while(Quaternion.Angle(realCube.rotation,destRot)>0.5f)     //목표점과 자신의 각도 차이 계산
+        while(UnityEngine.Quaternion.Angle(realCube.rotation,destRot)>0.5f)     //목표점과 자신의 각도 차이 계산
         {
-            realCube.rotation = Quaternion.RotateTowards(realCube.rotation, destRot, spinSpeed*Time.deltaTime);
+            realCube.rotation = UnityEngine.Quaternion.RotateTowards(realCube.rotation, destRot, spinSpeed*Time.deltaTime);
             yield return null;
         }
 
@@ -124,16 +137,16 @@ public class PlayerController : MonoBehaviour
     {
         while(realCube.position.y<recoilPosY)       //올라갔다
         {
-            realCube.position += new Vector3(0, recoilSpeed * Time.deltaTime, 0);
+            realCube.position += new UnityEngine.Vector3(0, recoilSpeed * Time.deltaTime, 0);
             yield return null;
         }
         while (realCube.position.y >0)              //내려오기
         {
-            realCube.position -= new Vector3(0, recoilSpeed * Time.deltaTime, 0);
+            realCube.position -= new UnityEngine.Vector3(0, recoilSpeed * Time.deltaTime, 0);
             yield return null;
         }
 
-        realCube.localPosition = new Vector3(0, 0, 0);
+        realCube.localPosition = new UnityEngine.Vector3(0, 0, 0);
 
     }
 

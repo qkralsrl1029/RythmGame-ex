@@ -26,6 +26,7 @@ public class Result : MonoBehaviour
     public void ShowResult()
     {
         AudioManager.instance.StopBGM();    //결과창 호출시 브금 재생 종료
+        FindObjectOfType<CenterFlame>().ResetMusic();   
 
         goUI.SetActive(true);               //결과창 띄우기
 

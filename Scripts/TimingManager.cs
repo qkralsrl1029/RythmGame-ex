@@ -37,6 +37,12 @@ public class TimingManager : MonoBehaviour
         }
     }
 
+    public void init()
+    {
+        for (int i = 0; i < judgementRecord.Length; i++)
+            judgementRecord[i] = 0;
+    }
+
     public bool CheckTiming()       //노트가 알맞은 타이밍에 눌리는지 체크
     {
         for (int i = 0; i < boxNoteList.Count; i++)
