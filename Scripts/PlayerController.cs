@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
     }
     void CheckFalling()
     {
-        if (!Physics.Raycast(transform.position, UnityEngine.Vector3.down, 1.1f))
+        if (!Physics.Raycast(transform.position, UnityEngine.Vector3.down, 1.1f)&&!isDone)
         {
             rigid.useGravity = true;
             rigid.isKinematic = false;

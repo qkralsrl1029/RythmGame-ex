@@ -15,12 +15,15 @@ public class Result : MonoBehaviour
     ScoreManager theScore;
     ComboManager theCombo;
     TimingManager theTiming;
+    [SerializeField]StageMenu theStage;     //게임진행중엔 스테이지메뉴는 비활성상태여서 find로 찾기 안됨
+
     // Start is called before the first frame update
     void Start()
     {
         theScore = FindObjectOfType<ScoreManager>();
         theCombo = FindObjectOfType<ComboManager>();
         theTiming = FindObjectOfType<TimingManager>();
+        
     }
 
     public void ShowResult()
@@ -53,6 +56,8 @@ public class Result : MonoBehaviour
 
     public void BtnMain()       //메인메뉴 호출 버튼
     {
+        theStage.resetSong();       //선택곡 초기화
+        AudioManager.instance.StopBGM();
         goUI.SetActive(false);      //결과창 끄고
         theCombo.ResetCombo();      //콤보도 끄고
         GameManager.instance.MainMenu();    //메인메뉴창 호출

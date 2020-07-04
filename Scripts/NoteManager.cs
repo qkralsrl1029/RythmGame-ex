@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NoteManager : MonoBehaviour
 {
-    public int bpm = 0;
+    public float bpm = 0;
     double currentTime = 0d;    //오차를 줄이기위해 더블변수 사용.
 
     public static bool isDone = false;
@@ -30,14 +30,14 @@ public class NoteManager : MonoBehaviour
             if (!isDone && StatusManager.isAlive)     //플레이어가 도착지점에 도착하지않았거나 hp가 0이되지 않아서 살아있을때만 노트 생성     
             {
                 currentTime += Time.deltaTime;
-                if (currentTime >= 56.5d / bpm)    //1beat시간
+                if (currentTime >= 60d / bpm)    //1beat시간
                 {
                     GameObject t_note = ObjectPool.instance.noteQueue.Dequeue();        //옵젝 풀링
                     t_note.transform.position = tfNoteAppear.position;
                     t_note.SetActive(true);
 
                     theTimingManager.boxNoteList.Add(t_note);       //리스트에 추가
-                    currentTime -= 56.5d / bpm;       //그냥 0으로 초기화시켜버리면 프레임별 시간적 오차만큼 손실이 발생함.
+                    currentTime -= 60d / bpm;       //그냥 0으로 초기화시켜버리면 프레임별 시간적 오차만큼 손실이 발생함.
                 }
             }
         }

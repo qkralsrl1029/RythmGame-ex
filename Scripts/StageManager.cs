@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class StageManager : MonoBehaviour
 {
-    [SerializeField] GameObject stage = null;
+    [SerializeField] GameObject[] stageArr = null;
     GameObject currentStage;
     Transform[] stagePlates;
 
@@ -16,10 +16,10 @@ public class StageManager : MonoBehaviour
     int stepCount = 0;  //플레이어의 이동 횟수
     int totalPlateCount = 0;
     // Start is called before the first frame update
-    public void SettingStage()      //호출시 초기화/생성
+    public void SettingStage(int p_songNum)      //호출시 초기화/생성
     {
         stepCount = 0;
-        currentStage = Instantiate(stage, UnityEngine.Vector3.zero, UnityEngine.Quaternion.identity);
+        currentStage = Instantiate(stageArr[p_songNum], UnityEngine.Vector3.zero, UnityEngine.Quaternion.identity);
         stagePlates = currentStage.GetComponent<Stage>().platess;      //해당 스테이지의 비활성화된 발판들을 저장
         totalPlateCount = stagePlates.Length;
 

@@ -52,18 +52,36 @@ public class StageMenu : MonoBehaviour
         txtSongName.text = songList[currentSong].name;
         txtSongComposer.text = songList[currentSong].composer;
         imgDisk.sprite = songList[currentSong].sprite;
-        AudioManager.instance.PlayBGM("BGM" + currentSong);     //배경음악 변경
+        StartCoroutine(changeBGM());
     }
 
-    public void BtnBack()
+    public void BtnBack()       //뒤로가기 버튼이 눌리면
     {
-        TitleMenu.SetActive(true);
+        AudioManager.instance.StopBGM();    //재생중이던 브금 멈추고
+        currentSong = 0;                    //곡 초기화
+        SettingSong();
+        TitleMenu.SetActive(true);          //스테이지메뉴 비활성화/타이틀메뉴 활성화
         this.gameObject.SetActive(false);
     }
 
     public void BtnPlay()
     {
-        GameManager.instance.GameStart();
+        float t_bpm = songList[currentSong].bpm;
+        GameManager.instance.GameStart(currentSong,t_bpm);
         this.gameObject.SetActive(false);
+    }
+
+    IEnumerator changeBGM()
+    {
+        AudioManager.instance.StopBGM();
+        yield return new WaitForSeconds(0.5f);
+        AudioManager.instance.PlayBGM("BGM" + currentSong);     //배경음악 변경
+    }
+
+
+    public void resetSong()
+    {
+        currentSong = 0;
+        SettingSong();
     }
 }

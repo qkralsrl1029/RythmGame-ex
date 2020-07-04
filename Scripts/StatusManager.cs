@@ -46,6 +46,7 @@ public class StatusManager : MonoBehaviour
             {
                 isAlive = false;
                 theResult.ShowResult();
+                AudioManager.instance.StopBGM();
             }
             else
                 StartCoroutine(BlinkCoroutine());

@@ -17,7 +17,8 @@ public class GameManager : MonoBehaviour
     StatusManager theStatus;
     PlayerController thePlayer;
     StageManager theStage;
-
+    NoteManager theNote;
+    [SerializeField] CenterFlame theMusic=null;      //비활성화된 객체는 find로 찾을수 없음!
     public bool isStartGame = false;
 
     // Start is called before the first frame update
@@ -25,6 +26,7 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
 
+        theNote = FindObjectOfType<NoteManager>();
         theCombo = FindObjectOfType<ComboManager>();
         thePlayer = FindObjectOfType<PlayerController>();
         theScore = FindObjectOfType<ScoreManager>();
@@ -33,17 +35,22 @@ public class GameManager : MonoBehaviour
         theStage = FindObjectOfType<StageManager>();
     }
 
-    public void GameStart()     //게임 시작, 관련 옵젝들 활성화
+    public void GameStart(int p_songNum, float p_bpm)     //게임 시작, 관련 옵젝들 활성화
     {
         for (int i = 0; i < goGameUI.Length; i++)
         {
             goGameUI[i].SetActive(true);
         }
-        isStartGame = true;
-        NoteManager.isDone = false;
 
+        isStartGame = true;
+        AudioManager.instance.StopBGM();
+        NoteManager.isDone = false;
+        
+        theNote.bpm = p_bpm;        //bpm초기화
+        theMusic.BGMName = "BGM" + p_songNum;   //재생곡 초기화
+        theMusic.musicStart = false;//브금 초기설정
         theStage.RemoveStage();     //맵 초기화
-        theStage.SettingStage();    //맵 생성
+        theStage.SettingStage(p_songNum);    //맵 생성
         theCombo.ResetCombo();      //콤보리셋
         theScore.init();            //점수 리셋
         thePlayer.init();           //플레이어 위치 리셋

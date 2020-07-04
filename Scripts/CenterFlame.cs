@@ -5,8 +5,8 @@ using UnityEngine;
 public class CenterFlame : MonoBehaviour
 {
    
-    bool musicStart = false;
-    
+    public bool musicStart = false;
+    public string BGMName;
 
     public void ResetMusic()
     {
@@ -17,7 +17,7 @@ public class CenterFlame : MonoBehaviour
     {
         if(collision.CompareTag("Note")&&!musicStart)   //첫번째 노트가 프레임에 닿았을때 bgm실행
         {
-            AudioManager.instance.PlayBGM("BGM0");
+            AudioManager.instance.PlayBGM(BGMName);
             musicStart = true;
         }
     }

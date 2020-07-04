@@ -8,6 +8,8 @@ public class TitleMenu : MonoBehaviour
 
     public void BtnPlay()
     {
+        AudioManager.instance.StopBGM();
+        AudioManager.instance.PlayBGM();
         goStageUI.SetActive(true);
         this.gameObject.SetActive(false);
     }

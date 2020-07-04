@@ -26,7 +26,7 @@ public class AudioManager : MonoBehaviour
         instance = this;
     }
 
-    public void PlayBGM(string bgmName)
+    public void PlayBGM(string bgmName = "BGM0")
     {
         for (int i = 0; i < bgm.Length; i++)
         {
