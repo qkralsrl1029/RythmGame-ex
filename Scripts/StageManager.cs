@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class StageManager : MonoBehaviour
 {
-    [SerializeField] GameObject[] stageArr = null;
-    GameObject currentStage;
-    Transform[] stagePlates;
+    [SerializeField] GameObject[] stageArr = null;      //모든 스테이지 저장
+    GameObject currentStage;                                
+    Transform[] stagePlates;                            //현재 스테이지 내 비활성화 된 발판들
 
     [SerializeField] float offsetY = -3f;        //발판 등장시 연출효과 부여
     float offsetSpeed = 10f;

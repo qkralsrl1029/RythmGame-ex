@@ -55,11 +55,12 @@ public class PlayerController : MonoBehaviour
     {
         if (GameManager.instance.isStartGame)
         {
-            CheckFalling();     //발판에서 벗어나는지 체크
+            CheckFalling();     //발판에서 벗어나는지 체크, 조건문 안에 해줘야 골 발판 밟아도 안떨어짐. 왜지?
             if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.W))
             {
                 if (canMove && !isDone)
                 {
+                    
                     Calc();
                     if (theTimingManager.CheckTiming())
                     {
@@ -71,7 +72,7 @@ public class PlayerController : MonoBehaviour
     }
     void CheckFalling()
     {
-        if (!Physics.Raycast(transform.position, UnityEngine.Vector3.down, 1.1f)&&!isDone)
+        if (!Physics.Raycast(transform.position, UnityEngine.Vector3.down, 1.1f))
         {
             rigid.useGravity = true;
             rigid.isKinematic = false;

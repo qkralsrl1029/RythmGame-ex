@@ -23,7 +23,6 @@ public class Goal : MonoBehaviour
             PlayerController.isDone = true; //움직임 봉쇄
             NoteManager.isDone = true;      //노트 생성 봉쇄
             theNote.removeNote();
-
             theResult.ShowResult();
         }
     }
