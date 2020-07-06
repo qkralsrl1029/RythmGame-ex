@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     CameraController theCam;
     StatusManager theStatus;
     Rigidbody rigid;
+    NoteManager theNote;
+    Result theResult;
 
 
     [SerializeField] float moveSpeed = 3f;      //큐브움직임
@@ -29,12 +31,17 @@ public class PlayerController : MonoBehaviour
     bool canMove = true;        //중복 실행 방지
     public static bool isDone = false;  //게임 종료 감지
 
+    
+    
+
     private void Start()
     {
         theTimingManager = FindObjectOfType<TimingManager>();
         theCam = FindObjectOfType<CameraController>();
         theStatus = FindObjectOfType<StatusManager>();
         rigid = GetComponentInChildren<Rigidbody>();
+        theNote = FindObjectOfType<NoteManager>();
+        theResult = FindObjectOfType<Result>();
 
         originPos = transform.position;       
     }
@@ -55,7 +62,7 @@ public class PlayerController : MonoBehaviour
     {
         if (GameManager.instance.isStartGame)
         {
-            CheckFalling();     //발판에서 벗어나는지 체크, 조건문 안에 해줘야 골 발판 밟아도 안떨어짐. 왜지?
+            CheckFalling();
             if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.W))
             {
                 if (canMove && !isDone)
@@ -72,12 +79,29 @@ public class PlayerController : MonoBehaviour
     }
     void CheckFalling()
     {
-        if (!Physics.Raycast(transform.position, UnityEngine.Vector3.down, 1.1f))
+        RaycastHit hitinfo;
+        if (Physics.Raycast(transform.position, UnityEngine.Vector3.down,out hitinfo,1.1f))
         {
+            if (hitinfo.transform.tag == "Goal")
+                GoalIn();
+        }
+        else if (!Physics.Raycast(transform.position, UnityEngine.Vector3.down, 1.1f) && !isDone)
+        {
+
             rigid.useGravity = true;
             rigid.isKinematic = false;
         }
+        
     }
+
+    void GoalIn()
+    {
+        isDone = true;
+        NoteManager.isDone = true;      //노트 생성 봉쇄
+        theNote.removeNote();
+        theResult.ShowResult();
+    }
+
     public void ResetFalling()
     {
         theStatus.DecreaseHp(1);

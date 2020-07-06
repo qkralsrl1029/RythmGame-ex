@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     PlayerController thePlayer;
     StageManager theStage;
     NoteManager theNote;
+    Result theResult;
+    DatabaseManager theData;
     [SerializeField] CenterFlame theMusic=null;      //비활성화된 객체는 find로 찾을수 없음!
     public bool isStartGame = false;
 
@@ -33,6 +35,8 @@ public class GameManager : MonoBehaviour
         theStatus = FindObjectOfType<StatusManager>();
         theTiming = FindObjectOfType<TimingManager>();
         theStage = FindObjectOfType<StageManager>();
+        theResult = FindObjectOfType<Result>();
+        theData = FindObjectOfType<DatabaseManager>();
     }
 
     public void GameStart(int p_songNum, float p_bpm)     //게임 시작, 관련 옵젝들 활성화
@@ -56,6 +60,9 @@ public class GameManager : MonoBehaviour
         thePlayer.init();           //플레이어 위치 리셋
         theStatus.init();           //플레이어 체력 리셋
         theTiming.init();           //점수리셋2
+        theResult.SetCurrentSong(p_songNum);    //DB에넘겨줄 곡 정보
+        theData.SetCurrentSong(p_songNum);
+        
     }
 
     public void MainMenu()

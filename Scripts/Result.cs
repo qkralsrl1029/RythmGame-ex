@@ -15,7 +15,15 @@ public class Result : MonoBehaviour
     ScoreManager theScore;
     ComboManager theCombo;
     TimingManager theTiming;
+    DatabaseManager theData;
     [SerializeField]StageMenu theStage;     //게임진행중엔 스테이지메뉴는 비활성상태여서 find로 찾기 안됨
+
+    int currentSong = 0;        //데이터베이스에 넘길 곡의 정보
+
+    public void SetCurrentSong(int num)
+    {
+        currentSong = num;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +31,7 @@ public class Result : MonoBehaviour
         theScore = FindObjectOfType<ScoreManager>();
         theCombo = FindObjectOfType<ComboManager>();
         theTiming = FindObjectOfType<TimingManager>();
-        
+        theData = FindObjectOfType<DatabaseManager>();
     }
 
     public void ShowResult()
@@ -33,6 +41,7 @@ public class Result : MonoBehaviour
 
         goUI.SetActive(true);               //결과창 띄우기
 
+        int sCore = theScore.GetScore();
 
         //게임 진행 중 얻은 정보들 텍스트에 저장
         for (int i = 0; i < txt.Length; i++)
@@ -50,8 +59,17 @@ public class Result : MonoBehaviour
         {
             txt[i].text = string.Format("{0:#,##0}", tempCount[i]);
         }
-        txtScore.text = string.Format("{0:#,##0}", theScore.GetScore());
+        txtScore.text = string.Format("{0:#,##0}", sCore);
         txtMaxCombo.text = string.Format("{0:#,##0}", theCombo.GetMaxCombo());
+
+        theData.SaveData(sCore);
+        //if (theData.Scores[currentSong] < sCore)   //최고점수 갱신
+        //{
+        //    theData.SaveScore();
+        //    theData.Scores[currentSong] = sCore;
+        //}
+
+
     }
 
     public void BtnMain()       //메인메뉴 호출 버튼

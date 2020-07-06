@@ -19,14 +19,19 @@ public class StageMenu : MonoBehaviour
     [SerializeField] GameObject TitleMenu = null;
     [SerializeField] Song[] songList=null;
     [SerializeField] Text txtSongName = null;
+    [SerializeField] Text txtSongScore=null;
     [SerializeField] Text txtSongComposer = null;
     [SerializeField] Image imgDisk = null;
 
+    DatabaseManager theData;
+
     int currentSong = 0;        //현재곡의 배열인덱스 정보 저장
 
-    private void Start()
+    private void OnEnable()     //점수갱신을 위해 활성화시마다 호출    
     {
         SettingSong();
+        if(theData==null)
+            theData = FindObjectOfType<DatabaseManager>();
     }
 
     public void BtnNext()
@@ -53,6 +58,16 @@ public class StageMenu : MonoBehaviour
         txtSongComposer.text = songList[currentSong].composer;
         imgDisk.sprite = songList[currentSong].sprite;
         StartCoroutine(changeBGM());
+        theData.SetCurrentSong(currentSong);
+        theData.LoadData();
+        //txtSongScore.text =string.Format("{0:#,##0}",theData.Scores[currentSong]);
+    }
+
+    void SettingForMain()       //코루틴 사용시 메인메뉴로 돌아갈때 오류
+    {
+        txtSongName.text = songList[currentSong].name;
+        txtSongComposer.text = songList[currentSong].composer;
+        imgDisk.sprite = songList[currentSong].sprite;
     }
 
     public void BtnBack()       //뒤로가기 버튼이 눌리면
@@ -78,10 +93,14 @@ public class StageMenu : MonoBehaviour
         AudioManager.instance.PlayBGM("BGM" + currentSong);     //배경음악 변경
     }
 
+    public void SetScore(string score)
+    {
+        txtSongScore.text = score;
+    }
 
-    public void resetSong()
+    public void resetSong()     //메인메뉴로 돌아갈때 호출
     {
         currentSong = 0;
-        SettingSong();
+        SettingForMain();
     }
 }
