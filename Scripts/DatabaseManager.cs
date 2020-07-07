@@ -7,7 +7,7 @@ using UnityEngine.SocialPlatforms.Impl;
 public class DatabaseManager : MonoBehaviour        //제이슨을 이용한 게임 내용 저장
 {
     SaveData save = new SaveData();
-    [SerializeField] StageMenu theStage;
+    [SerializeField] StageMenu theStage;        //스테이지메뉴 참조, find로 찾으면 오류남
 
     string SAVE_DATA_DIRECTORY;     //저장 경로
     string SAVE_FILENAME = "/SaveFile.txt";  //파일 이름
@@ -16,7 +16,7 @@ public class DatabaseManager : MonoBehaviour        //제이슨을 이용한 게
 
     public void SetCurrentSong(int num)
     {
-        currentSong = num;
+        currentSong = num;     
     }
 
     void Start()
@@ -29,7 +29,9 @@ public class DatabaseManager : MonoBehaviour        //제이슨을 이용한 게
     public void SaveData(int score)
     {
         ScoreManager theScore = FindObjectOfType<ScoreManager>();
-        save.maxScores[currentSong] = theScore.GetScore();
+
+        if(theStage.GetScore()< score)  //최고점수보다 이번판의 점수가 더 크다면
+            save.maxScores[currentSong] = score;    //최신화
 
         string json = JsonUtility.ToJson(save);                 //데이터 저장 클래스의 데이터들을 제이슨화
         File.WriteAllText(SAVE_DATA_DIRECTORY + SAVE_FILENAME, json);   //기존 지정 디렉토리에 제이슨화 되었던 정보들을 기록(물리적인 저장)
@@ -47,7 +49,7 @@ public class DatabaseManager : MonoBehaviour        //제이슨을 이용한 게
 
 
             
-            theStage.SetScore(string.Format("{0:#,##0}", save.maxScores[currentSong]));
+            theStage.SetScore(string.Format("{0:#,##0}", save.maxScores[currentSong])); //스테이지메뉴에 저장된 점수 삽입
 
             Debug.Log("로드완료");
         }

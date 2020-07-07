@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
     {
         if (GameManager.instance.isStartGame)
         {
-            CheckFalling();
+            //CheckFalling();
             if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.W))
             {
                 if (canMove && !isDone)
@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
             rigid.useGravity = true;
             rigid.isKinematic = false;
         }
-        
+
     }
 
     void GoalIn()

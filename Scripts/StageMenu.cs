@@ -16,22 +16,22 @@ public class Song       //곡의 정보 저장
 
 public class StageMenu : MonoBehaviour
 {
-    [SerializeField] GameObject TitleMenu = null;
-    [SerializeField] Song[] songList=null;
+    [SerializeField] GameObject TitleMenu = null;       //백을 눌렀을때 돌아갈 타이틀 메뉴
+    [SerializeField] Song[] songList=null;              //노래들 저장
+    //각 노래마다의 정보 저장
     [SerializeField] Text txtSongName = null;
     [SerializeField] Text txtSongScore=null;
     [SerializeField] Text txtSongComposer = null;
     [SerializeField] Image imgDisk = null;
 
-    DatabaseManager theData;
+    [SerializeField] DatabaseManager theData;       //로드할 정보들이 담겨있는 저장소
 
     int currentSong = 0;        //현재곡의 배열인덱스 정보 저장
 
     private void OnEnable()     //점수갱신을 위해 활성화시마다 호출    
     {
         SettingSong();
-        if(theData==null)
-            theData = FindObjectOfType<DatabaseManager>();
+        
     }
 
     public void BtnNext()
@@ -54,12 +54,15 @@ public class StageMenu : MonoBehaviour
 
     void SettingSong()
     {
+        //변경된 노래의 정보 최신화
         txtSongName.text = songList[currentSong].name;
         txtSongComposer.text = songList[currentSong].composer;
         imgDisk.sprite = songList[currentSong].sprite;
+        //브금변경, 노래 변경후 일정시간 대기 후 시작되도록 코루틴 사용
         StartCoroutine(changeBGM());
-        theData.SetCurrentSong(currentSong);
-        theData.LoadData();
+
+        theData.SetCurrentSong(currentSong);    //저장소에서 불러올 배열의 인덱스 전달
+        theData.LoadData();                     //인덱스에 맞는 노래정보 호출, 이후 DB에서 직접 노래점수 변경
         //txtSongScore.text =string.Format("{0:#,##0}",theData.Scores[currentSong]);
     }
 
@@ -79,11 +82,11 @@ public class StageMenu : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    public void BtnPlay()
+    public void BtnPlay()       //플레이 버튼이 눌리면
     {
         float t_bpm = songList[currentSong].bpm;
-        GameManager.instance.GameStart(currentSong,t_bpm);
-        this.gameObject.SetActive(false);
+        GameManager.instance.GameStart(currentSong,t_bpm);      //게임매니저 호출
+        this.gameObject.SetActive(false);                       //스테이지메뉴는 비활성화
     }
 
     IEnumerator changeBGM()
@@ -93,9 +96,14 @@ public class StageMenu : MonoBehaviour
         AudioManager.instance.PlayBGM("BGM" + currentSong);     //배경음악 변경
     }
 
-    public void SetScore(string score)
+    public void SetScore(string score)      //DB에서 직접 점수 변경
     {
         txtSongScore.text = score;
+    }
+
+    public int GetScore()             //DB에서 최고점수인지 판단하도록 현재 최고점수(스테이지메뉴에있는 점수) 전달
+    {
+        return int.Parse(txtSongScore.text);
     }
 
     public void resetSong()     //메인메뉴로 돌아갈때 호출

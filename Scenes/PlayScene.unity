@@ -2143,7 +2143,7 @@ GameObject:
   - component: {fileID: 678388600}
   m_Layer: 0
   m_Name: PlayerController
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5581,8 +5581,54 @@ MonoBehaviour:
     bpm: 132.01
     sprite: {fileID: 21300000, guid: 9b1c0ba843e47fc4392b1984bd241ecd, type: 3}
   txtSongName: {fileID: 1680501424}
+  txtSongScore: {fileID: 552887537}
   txtSongComposer: {fileID: 738963200}
   imgDisk: {fileID: 1683433844}
+  theData: {fileID: 1559123497}
+--- !u!1 &1559123496
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1559123498}
+  - component: {fileID: 1559123497}
+  m_Layer: 0
+  m_Name: DataBase
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1559123497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1559123496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0fa417521780a449951d301a04fd4fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  theStage: {fileID: 1545140919}
+--- !u!4 &1559123498
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1559123496}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.13481045, y: -6.4633164, z: 16.209255}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1559508528
 GameObject:
   m_ObjectHideFlags: 0

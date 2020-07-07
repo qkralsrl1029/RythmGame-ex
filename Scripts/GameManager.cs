@@ -60,7 +60,6 @@ public class GameManager : MonoBehaviour
         thePlayer.init();           //플레이어 위치 리셋
         theStatus.init();           //플레이어 체력 리셋
         theTiming.init();           //점수리셋2
-        theResult.SetCurrentSong(p_songNum);    //DB에넘겨줄 곡 정보
         theData.SetCurrentSong(p_songNum);
         
     }

@@ -29,6 +29,7 @@ public class NoteManager : MonoBehaviour
         {
             if (!isDone && StatusManager.isAlive)     //플레이어가 도착지점에 도착하지않았거나 hp가 0이되지 않아서 살아있을때만 노트 생성     
             {
+                //bpm대로 노트 생성
                 currentTime += Time.deltaTime;
                 if (currentTime >= 60d / bpm)    //1beat시간
                 {
@@ -43,7 +44,7 @@ public class NoteManager : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)     //일정거리 밖으로 나가면 노트 파괴
+    private void OnTriggerEnter2D(Collider2D collision)     //일정거리 밖으로 나가면 노트 반납
     {
         if (collision.CompareTag("Note"))
         {
