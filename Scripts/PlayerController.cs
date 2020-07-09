@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float moveSpeed = 3f;      //큐브움직임
     UnityEngine.Vector3 dir = new UnityEngine.Vector3();
     public UnityEngine.Vector3 destination = new UnityEngine.Vector3();
-    UnityEngine.Vector3 originPos = new UnityEngine.Vector3();          //리젠될때 불러올 원위치
+    UnityEngine.Vector3 originPos = new UnityEngine.Vector3(0,0,0);          //리젠될때 불러올 원위치
 
     [SerializeField] float spinSpeed = 270;     //회전속도
     UnityEngine.Vector3 rotDir = new UnityEngine.Vector3();             //회전방향
@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
     {
         if (GameManager.instance.isStartGame)
         {
-            //CheckFalling();
+            CheckFalling();
             if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.W))
             {
                 if (canMove && !isDone)
@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
             if (hitinfo.transform.tag == "Goal")
                 GoalIn();
         }
-        else if (!Physics.Raycast(transform.position, UnityEngine.Vector3.down, 1.1f) && !isDone)
+        else if (!Physics.Raycast(transform.position, UnityEngine.Vector3.down, 3f) && !isDone)
         {
 
             rigid.useGravity = true;
@@ -137,7 +137,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator MoveCoroutine()
     {
         canMove = false;
-        while(UnityEngine.Vector3.SqrMagnitude(transform.position-destination)>=0.01)       //distance함수보다 가벼움.제곱근 구하는 함수
+        while(UnityEngine.Vector3.SqrMagnitude(transform.position-destination)>=0.1)       //distance함수보다 가벼움.제곱근 구하는 함수
         {
             transform.position = UnityEngine.Vector3.MoveTowards(transform.position, destination, moveSpeed * Time.deltaTime);
             yield return null;
