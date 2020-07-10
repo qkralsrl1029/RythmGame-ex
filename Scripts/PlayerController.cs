@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour
       
         StartCoroutine(MoveCoroutine());
         StartCoroutine(SpinCoroutine());
-        StartCoroutine(recoilCoroutine());
+        //StartCoroutine(recoilCoroutine());
 
         StartCoroutine(theCam.ZoomCam());
     }
@@ -137,7 +137,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator MoveCoroutine()
     {
         canMove = false;
-        while(UnityEngine.Vector3.SqrMagnitude(transform.position-destination)>=0.1)       //distance함수보다 가벼움.제곱근 구하는 함수
+        while(UnityEngine.Vector3.SqrMagnitude(transform.position-destination)>=0.01)       //distance함수보다 가벼움.제곱근 구하는 함수
         {
             transform.position = UnityEngine.Vector3.MoveTowards(transform.position, destination, moveSpeed * Time.deltaTime);
             yield return null;

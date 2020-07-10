@@ -36,7 +36,9 @@ public class MovingCube : BasicPlate
         yield return new WaitForSeconds(0.3f);
         if(Vector3.Distance(transform.position,Destination.transform.position)>0.1f)
             transform.position = Vector3.MoveTowards(transform.position, transform.position + new Vector3(0, moveOffset, 0), moveSpeed * Time.deltaTime);
+        transform.position = Destination.transform.position;
         yield return new WaitForSeconds(0.3f);
+        
         thePlayer.transform.parent = null;
     }
 }
