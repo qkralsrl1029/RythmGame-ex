@@ -89,6 +89,11 @@ public class StageMenu : MonoBehaviour
         this.gameObject.SetActive(false);                       //스테이지메뉴는 비활성화
     }
 
+    public void BtnRestart()                                    //pause메튜넹서 일시정지버튼메뉴중 게임 리셋시 호출
+    {
+        GameManager.instance.BtnRestart(currentSong);
+    }
+
     IEnumerator changeBGM()
     {
         AudioManager.instance.StopBGM();

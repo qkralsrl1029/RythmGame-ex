@@ -69,4 +69,12 @@ public class Result : MonoBehaviour
         theCombo.ResetCombo();      //콤보도 끄고
         GameManager.instance.MainMenu();    //메인메뉴창 호출
     }
+
+    public void BtnRestart()
+    {
+        goUI.SetActive(false);
+        theCombo.ResetCombo();
+        PlayerController.isDone = false;
+        NoteManager.isDone = false;
+    }
 }

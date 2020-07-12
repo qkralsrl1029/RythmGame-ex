@@ -72,4 +72,11 @@ public class GameManager : MonoBehaviour
         }
         goTitleUI.SetActive(true);
     }
+
+    public void BtnRestart(int p_SongNum)
+    {
+        theStage.RemoveStage();     //맵 초기화
+        theStage.SettingStage(p_SongNum);    //맵 생성
+    }
+    
 }
